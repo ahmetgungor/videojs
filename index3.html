@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="https://vjs.zencdn.net/6.0.0/video-js.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.6-0/videojs.ads.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/video.js/6.0.0/video.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.6-0/videojs.ads.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.5.0/videojs-contrib-hls.min.js"></script>
+	<style>
+		.jppolvp.vjs-paused .vjs-big-play-button{
+  display: block;
+}
+
+.jppolvp.vjs-paused.vjs-ad-playing .vjs-big-play-button{
+  display: none;
+}
+
+.jppolvp.vjs-ad-playing .vjs-loading-spinner{
+  display: none;
+}
+
+.jppolvp-skipButton:empty{
+  display: none;
+}
+
+.jppolvp.video-js .vjs-big-play-button{
+  top: calc(50% - .75em);
+  left: calc(50% - 1.5em);
+}
+
+.jppolvp.video-js .vjs-overlay-background{
+  background-color: rgba(50,50,50,.75);
+  border-radius: 1px;
+  padding: 5px 10px;
+  min-width: 100px;
+  text-align: left;
+}
+
+.jppolvp.video-js .vjs-overlay{
+  color: #eee;
+  font-size: 12px;
+}
+
+
+.jppolvp.video-js.vjs-ad-playing .vjs-overlay{
+  display: none;
+}
+
+.jppolvp-skipButton{
+    position: absolute;
+    font-size: 13px;
+    top: 5px;
+    right: 5px;
+    padding: 10px;
+    border: 2px solid rgba(110, 110, 110,.5);
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: rgba(200,200,200,.3);
+}
+
+.jppolvp-adClickLayer{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+	</style>
+</head>
+<body>
+ <video width="600" height="420" class="video-js jppolvp"  
+           preload="auto"
+           autoplay
+           poster="https://s3-eu-west-1.amazonaws.com/msvideotest-transcoded-files/5804340-2/thumb-720-00002.png">
+	 <source src='http://5.vegoltv1.com/origin/2889/playlist.m3u8' type='application/x-mpegURL'>
+    
+    <source src='http://techslides.com/demos/sample-videos/small.mp4' type='video/mp4'>
+ </video>
+</body>
+<script>
+	
+  videojs(
+    document.querySelector("video.jppolvp"),
+    {
+      
+      preload: true,
+      controls: true
+    },
+    function () {
+      console.clear();
+
+      
+      
+      var playAds = true;
+      
+      var player = this;
+      var state = {};
+      
+      
+      
+      var settings = {
+        preroll: {
+          vastUrl: 'http://elexbet1.tv/',
+          mediaSrc: 'http://techslides.com/demos/sample-videos/small.mp4'
+        },
+        postroll: {
+          vastUrl: 'http://elexbet1.tv/',
+          mediaSrc: 'http://techslides.com/demos/sample-videos/small.mp4'
+        },
+        skipAdTime: 5
+      };
+
+      player.ads({
+        debug: true,
+        timeout: 8000
+      });
+
+      
+      function playAd(position) { 
+        
+        var src = settings[position].mediaSrc;
+
+        if (src === null) {
+          return;
+        }
+
+        player.ads.startLinearAdMode();
+        player.src(src);
+        state.adPlaying = true;
+
+        createSkipButton(position);
+
+        player.one("adended", function () {
+          state.adPlaying = false;
+          removeSkipButton();
+          player.ads.endLinearAdMode();
+          console.log('ad: ' + position + ' has ended');
+        });
+
+      };
+
+      if(playAds){
+        player.trigger('adsready');
+      }else{
+        player.trigger('adserror');
+      }
+      
+      function createSkipButton(position) {
+        var skipButton = window.document.createElement('div');
+        skipButton.className = "jppolvp-skipButton";
+        player.el().insertBefore(skipButton, player.controlBar.el());
+
+        var skipButtonEventAttached = false;
+        player.on('adtimeupdate', function () {
+          var timeLeft = Math.floor(settings.skipAdTime - player.currentTime());
+          if (!skipButtonEventAttached) {
+            if (timeLeft > 0) {
+              skipButton.innerHTML = " " + timeLeft + (timeLeft > 1 ? " saniye" : " saniye");
+            } else {
+              skipButton.innerHTML = "Reklamı Geç >";
+              skipButton.onclick = function () {
+                player.trigger('adended');
+              };
+              skipButtonEventAttached = true;
+            } 
+          }
+        });
+      };
+
+      function removeSkipButton() {
+        var el = player.el().querySelector('.jppolvp-skipButton');
+        if(el){
+          el.parentNode.removeChild(el);
+        }
+      };
+
+      player.on("readyforpreroll", function () {
+        if (!state.prerollPlayed) {
+          console.log('ready for preroll...');
+          state.prerollPlayed = true;
+          playAd('preroll');
+        }
+      });
+
+      player.on('contentended', function () {
+          console.info('content ended');
+          player.autoplay = false;
+          if(!state.postrollPlayed){
+            state.postrollPlayed = true;
+            playAd('postroll');
+          }
+      });
+      
+    }
+  );
+
+</script>
+</html>
