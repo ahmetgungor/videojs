@@ -68,6 +68,21 @@
   bottom: 0;
   left: 0;
 }
+.ahmetx{
+
+  display: block;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+
 	</style>
 </head>
 <body>
@@ -103,19 +118,19 @@
       
       var settings = {
         preroll: {
-          vastUrl: 'http://elexbet1.tv/',
+          url: 'http://elexbet1.tv/',
           mediaSrc: 'http://techslides.com/demos/sample-videos/small.mp4'
         },
         postroll: {
-          vastUrl: 'http://elexbet1.tv/',
+          url: 'http://elexbet1.tv/',
           mediaSrc: 'http://techslides.com/demos/sample-videos/small.mp4'
         },
-        skipAdTime: 5
+        skipAdTime: 3
       };
 
       player.ads({
         debug: true,
-        timeout: 8000
+        timeout: 5000
       });
 
       
@@ -149,6 +164,7 @@
       }
       
       function createSkipButton(position) {
+    	link(position)
         var skipButton = window.document.createElement('div');
         skipButton.className = "jppolvp-skipButton";
         player.el().insertBefore(skipButton, player.controlBar.el());
@@ -158,17 +174,34 @@
           var timeLeft = Math.floor(settings.skipAdTime - player.currentTime());
           if (!skipButtonEventAttached) {
             if (timeLeft > 0) {
-              skipButton.innerHTML = " " + timeLeft + (timeLeft > 1 ? " saniye" : " saniye");
+              skipButton.innerHTML = "Reklam " + timeLeft + (timeLeft > 1 ? " seconds" : " second");
             } else {
               skipButton.innerHTML = "Reklamı Geç >";
               skipButton.onclick = function () {
                 player.trigger('adended');
               };
               skipButtonEventAttached = true;
-            } 
+            }
           }
         });
       };
+
+      function link(position)
+      {
+      	 var src = settings[position].url;
+      	if(src !== ''){ 
+       
+        var adasus = document.createElement('a');
+        adasus.className = 'ahmetx';
+        adasus.href = src;
+        adasus.target = settings.target || '_blank';
+        adasus.onclick = function() {
+          player.trigger('adclick');
+        };
+       
+        player.el().insertBefore(adasus, player.controlBar.el());
+     	 }
+      }
 
       function removeSkipButton() {
         var el = player.el().querySelector('.jppolvp-skipButton');
