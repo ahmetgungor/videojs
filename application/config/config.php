@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/videojs';
+$config['base_url'] = 'http://localhost:8080/videojs';
 
 /*
 |--------------------------------------------------------------------------
@@ -339,7 +339,7 @@ $config['encryption_key'] = '2568asj89qpoasD';
 |
 |	The session cookie name, must contain only [0-9a-z_-] characters
 |
-| 'sess_expiration'
+| 'sess_expiration'	
 |
 |	The number of SECONDS you want the session to last.
 |	Setting to 0 (zero) means expire when the browser is closed.
@@ -522,5 +522,5 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
-$config['theme'] ='tema1';
+$config['theme'] ='theme1';
 

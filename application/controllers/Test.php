@@ -8,7 +8,9 @@ class test extends CI_Controller {
     }
 
     function index() {
-        echo _theme('w','w');
+    	$data['ayar'] = ayarjson();
+    	
+        echo _theme('mainpage',$data);
     }
 }
         

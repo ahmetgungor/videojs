@@ -1,0 +1,22 @@
+{
+  "short_name": "Elexbet",
+  "name": "Canlı Maç İzle",
+  "icons": [
+    {
+      "src": "assets/manifes/48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "assets/manifes/96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "assets/manifes/128x128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    }
+  ],
+  "start_url": "http://localhost:8080/videojs/index.php"
+}

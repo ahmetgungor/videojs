@@ -1,3 +1,8 @@
-{
-	
+{	
+	"title":"Elex Bet Canl\u0131 yay\u0131n izle",
+	"logo" :"http://elexbet1.tv/assets/themes/elexbet/images/logo.png",
+	"reklam":{
+			  "ust":"<iframe scrolling='no' frameBorder='0' style='padding:0px; margin:0px; border:0px;border-style:none;border-style:none;' width='728' height='90' src='http://localhost:8080/videojs/assets/theme1/images/ust.gif' ></iframe>"
+	}
+
 }
