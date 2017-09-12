@@ -1,0 +1,4 @@
+<?php $header; ?>
+<?php $solmenu; ?>
+<?php $icerik; ?>
+<?php $footer; ?>

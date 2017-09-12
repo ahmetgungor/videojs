@@ -1,4 +1,28 @@
 <?php 
+	
+	// çooook uydurma oldu düzelt daha sonra
+	function knt()
+	{
+		$ci =& get_instance();
+		$sess= $ci->session->all_userdata();
+		if($sess['login_got'] == true and empty($sess['login_got']))
+		{
+			redirect('admin/admin','refresh');
+		}
+	}
+
+	// admin tema 
+	function admin_theme($theme=null,$data=array(),$baslik=null,$js =null)
+	{
+		$ci =& get_instance();
+		$data['header'] = $ci->load->view('admin/sabit/header.php', $data,true);
+		$data['solmenu']= $ci->load->view('admin/sabit/solmenu.php', $data,true);
+		$data['icerik']=$ci->load->view('admin/'.$theme.'.php', $data,true);
+		$data['footer']=$ci->load->view('admin/sabit/footer.php', $data,true);
+		$ci->load->view('admin/body.php', $data);
+	}
+
+
 	/**
 	 *
 	 * ./json/tema_ayar.js içeriğini getirmesi için
@@ -90,9 +114,9 @@
 	}
 	function js($js=null)
 	{
-	$buffer = preg_replace("/((?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:\/\/.*))/", "", $js);
-    $buffer = str_replace(["\r\n","\r","\t","\n",'  ','    ','     '], '', $buffer);
-    $buffer = preg_replace(['(( )+\))','(\)( )+)'], ')', $buffer);
+	
+    $js = str_replace(["\r\n","\r","\t","\n",'  ','    ','     '], '', $js);
+    $js = preg_replace(['(( )+\))','(\)( )+)'], ')', $js);
 	    return $js;
 	}
 ?>

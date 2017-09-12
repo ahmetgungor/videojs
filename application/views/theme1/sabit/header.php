@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="appTV">
 <head>
 	<meta charset="utf-8">
 

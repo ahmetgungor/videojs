@@ -37,5 +37,22 @@
         </footer>
 </div>
 
+<?php 
+        $jss[] =base_url('assets/bootstrap/js/bootstrap.min.js');
+        $jss[] =base_url('assets/theme1/js/iframeResizer.min.js');
+        $jss[] =base_url('assets/theme1/js/main.js');
+        $jss[] =base_url('assets/theme1/js/jquery.slimscroll.min.js');
+        $bi = css_js($jss,'.js','boots_iframe_v1.2');
+
+        $angular[] =base_url('assets/theme1/js/angular/ui-bootstrap-tpls-2.5.0.min.js');
+        
+       
+        $an = css_js($angular,'.js','angular_0.1');
+
+ ?>
+<script src="<?=$bi?>"></script>  
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>  
+<script src="<?=$an?>"></script>  
+<script src="<?=base_url('assets/theme1/js/app.js')?>"></script>
 </body>
 </html>
